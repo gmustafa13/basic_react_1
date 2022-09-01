@@ -1,0 +1,23 @@
+
+.header{
+    height: fit-content;
+    background-color:#21222A  
+    
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-items{
+    list-style: none;
+    display: flex;
+}
+
+.nav-items > li{
+    padding: 10px;
+    font-family:'Courier New', Courier, monospace;
+    font-size: large;
+    color: rgb(217, 222, 241);
+    font-weight: 700;
+}

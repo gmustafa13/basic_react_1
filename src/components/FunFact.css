@@ -1,0 +1,21 @@
+.funfact{
+    background-color: rgb(82, 79, 79);
+}
+.funfact > h1{
+    font-size: 39px;
+    margin: 0%;
+    color: rgb(206, 227, 246);
+}
+
+.funfact > ul{
+    color: rgb(206, 227, 246);
+    padding: 10px;
+    margin-left: 5%;
+    line-height: 40px;   
+}
+.funfact > ul > li::marker{
+    font-size: 1.5rem;
+    color: rgb(68, 175, 191);
+}
+
+

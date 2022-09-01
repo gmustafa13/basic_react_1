@@ -1,0 +1,12 @@
+/* .App {
+  text-align: center;
+} */
+
+/* .main-body{
+  background-color: rgb(87, 86, 86);
+  height: 100%
+} */
+.app-main {
+  background-image: url('./logo512.png');
+  background-color: black;
+}
