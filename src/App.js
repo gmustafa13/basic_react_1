@@ -1,23 +1,12 @@
-import "./App.css";
-import FunFact from "./components/FunFact";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-function App() {
-  return (
-    <div className="app-main">
-      <div>
-        <Header></Header>
-      </div>
-      <div>
-      <div>
-        <FunFact></FunFact>
-      </div>
-      <div>
-        <Footer></Footer>
-      </div>
-      </div>
-    </div>
-  );
+import {Component}from 'react'
+class App extends Component {
+    render(){
+        return(
+            <div>
+                Hello World!
+            </div>
+        )
+    }
 }
 
-export default App;
+export default App
