@@ -13,27 +13,21 @@ class Header extends Component {
 }
 
 class Action extends Component {
-  handelPicked = () => {
-    console.log("from method");
-  };
   render() {
     return (
       <div>
-        <button onClick={this.handelPicked}>what should i do ?</button>
+        <button onClick={this.props.handelPicked}>what should i do ?</button>
       </div>
     );
   }
 }
 class Options extends Component {
-  removeAll() {
-    console.log("remove");
-  }
   render() {
     const { options } = this.props;
     return (
       <div>
         {/* Option Component here! */}
-        <button onClick={this.removeAll}>Remove all</button>
+        <button onClick={this.props.removeAll}>Remove all</button>
         {options.map((option, i) => (
           <Option key={i} option={option} />
         ))}
@@ -48,17 +42,25 @@ class Option extends Component {
   }
 }
 class AddOption extends Component {
+  constructor(){
+    super()
+    this.state={
+      error:undefined
+    }
+  }
   addOption(e) {
     e.preventDefault();
 
     const option = e.target.elements.option.value.trim();
-    if (option) {
-      console.log("in submit form",option);
-    }
+    const error = this.props.addOptionHandler(option);
+    this.setState(()=>{
+      return{error}
+    })
   }
   render() {
     return (
       <div>
+        {this.state.error && <p>{this.state.error}</p>}
         <form onSubmit={this.addOption}>
           <input type="text" name="option"></input>
           <button>Add Option</button>
@@ -68,16 +70,45 @@ class AddOption extends Component {
   }
 }
 class Indecision extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "In Decision App",
+      subTitle: "put your life in danger!",
+      options: ["alpha", "beta", "gama"],
+    };
+    this.removeAll = this.removeAll.bind(this);
+    this.handelPicked = this.handelPicked.bind(this);
+    this.addOptionHandler = this.addOptionHandler.bind(this);
+  }
+  removeAll() {
+    this.setState(() => {
+      return { options: [] };
+    });
+  }
+  handelPicked() {
+    alert(
+      this.state.options.length ? this.state.options[Math.floor(Math.random() * this.state.options.length)] : 'Options is empty please add!'
+    );
+  }
+
+  addOptionHandler(option) {
+    if (!option) {
+      return "Enter valid option!";
+    } else if (this.state.options.indexOf(option) > -1) {
+      return "Option alredy exist!";
+    }
+    this.setState((prevState) => {
+      return { ...prevState, options: prevState.options.concat(option) };
+    });
+  }
   render() {
-    const title = "In Decision App";
-    const subTitle = "put your life in danger!";
-    const options = ["alpha", "beta", "gama"];
     return (
       <div>
-        <Header title={title} subTitle={subTitle} />
-        <Action />
-        <Options options={options} />
-        <AddOption />
+        <Header title={this.state.title} subTitle={this.state.subTitle} />
+        <Action handelPicked={this.handelPicked} />
+        <Options options={this.state.options} removeAll={this.removeAll} />
+        <AddOption addOptionHandler={this.addOptionHandler} />
       </div>
     );
   }
