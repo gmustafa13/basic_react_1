@@ -38,24 +38,32 @@ class Options extends Component {
 class Option extends Component {
   render() {
     const { option } = this.props;
-    return <div>{option}</div>;
+    return (
+      <div>
+        {option}
+        <button>remove</button>
+      </div>
+    );
   }
 }
 class AddOption extends Component {
-  constructor(){
-    super()
-    this.state={
-      error:undefined
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: undefined,
+    };
+    this.addOption = this.addOption.bind(this)
   }
   addOption(e) {
     e.preventDefault();
 
     const option = e.target.elements.option.value.trim();
     const error = this.props.addOptionHandler(option);
-    this.setState(()=>{
-      return{error}
-    })
+    if(error){
+      this.setState(() => {
+        return { error };
+      });
+    }
   }
   render() {
     return (
@@ -88,7 +96,11 @@ class Indecision extends Component {
   }
   handelPicked() {
     alert(
-      this.state.options.length ? this.state.options[Math.floor(Math.random() * this.state.options.length)] : 'Options is empty please add!'
+      this.state.options.length
+        ? this.state.options[
+            Math.floor(Math.random() * this.state.options.length)
+          ]
+        : "Options is empty please add!"
     );
   }
 
