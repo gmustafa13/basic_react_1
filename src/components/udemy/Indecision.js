@@ -29,7 +29,11 @@ class Options extends Component {
         {/* Option Component here! */}
         <button onClick={this.props.removeAll}>Remove all</button>
         {options.map((option, i) => (
-          <Option key={i} option={option} />
+          <Option 
+          key={i}
+          option={option}
+          deleteOneOption={this.props.deleteOneOption}
+          />
         ))}
       </div>
     );
@@ -41,7 +45,9 @@ class Option extends Component {
     return (
       <div>
         {option}
-        <button>remove</button>
+        <button onClick={(e)=>{
+          this.props.deleteOneOption(option)
+        }}>remove</button>
       </div>
     );
   }
@@ -88,6 +94,7 @@ class Indecision extends Component {
     this.removeAll = this.removeAll.bind(this);
     this.handelPicked = this.handelPicked.bind(this);
     this.addOptionHandler = this.addOptionHandler.bind(this);
+    this.deleteOneOption = this.deleteOneOption.bind(this)
   }
   removeAll() {
     this.setState(() => {
@@ -114,12 +121,25 @@ class Indecision extends Component {
       return { ...prevState, options: prevState.options.concat(option) };
     });
   }
+
+  deleteOneOption(inputOption){
+    this.setState((prevState)=>{
+      return {
+        // ...prevState,
+        options:prevState.options.filter((option)=> option !== inputOption)
+      }
+    })
+  }
   render() {
     return (
       <div>
         <Header title={this.state.title} subTitle={this.state.subTitle} />
         <Action handelPicked={this.handelPicked} />
-        <Options options={this.state.options} removeAll={this.removeAll} />
+        <Options 
+        options={this.state.options} 
+        removeAll={this.removeAll}
+        deleteOneOption={this.deleteOneOption}
+        />
         <AddOption addOptionHandler={this.addOptionHandler} />
       </div>
     );
