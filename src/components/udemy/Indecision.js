@@ -1,88 +1,9 @@
 import { Component } from "react";
+import Header from "./Header";
+import Action from "./Action";
+import Options from "./Options";
+import AddOption from "./AddOption";
 
-class Header extends Component {
-  render() {
-    const data = this.props;
-    return (
-      <div>
-        <h1>{data.title}</h1>
-        <p>{data.subTitle}</p>
-      </div>
-    );
-  }
-}
-
-class Action extends Component {
-  render() {
-    return (
-      <div>
-        <button onClick={this.props.handelPicked}>what should i do ?</button>
-      </div>
-    );
-  }
-}
-class Options extends Component {
-  render() {
-    const { options } = this.props;
-    return (
-      <div>
-        {/* Option Component here! */}
-        <button onClick={this.props.removeAll}>Remove all</button>
-        {options.map((option, i) => (
-          <Option 
-          key={i}
-          option={option}
-          deleteOneOption={this.props.deleteOneOption}
-          />
-        ))}
-      </div>
-    );
-  }
-}
-class Option extends Component {
-  render() {
-    const { option } = this.props;
-    return (
-      <div>
-        {option}
-        <button onClick={(e)=>{
-          this.props.deleteOneOption(option)
-        }}>remove</button>
-      </div>
-    );
-  }
-}
-class AddOption extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: undefined,
-    };
-    this.addOption = this.addOption.bind(this)
-  }
-  addOption(e) {
-    e.preventDefault();
-
-    const option = e.target.elements.option.value.trim();
-    const error = this.props.addOptionHandler(option);
-    if(error){
-      this.setState(() => {
-        return { error };
-      });
-    }
-  }
-  render() {
-    return (
-      <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.addOption}>
-          <input type="text" name="option"></input>
-          <button>Add Option</button>
-        </form>
-      </div>
-    );
-  }
-}
 class Indecision extends Component {
   constructor(props) {
     super(props);
