@@ -3,6 +3,7 @@ import Header from "./Header";
 import Action from "./Action";
 import Options from "./Options";
 import AddOption from "./AddOption";
+import IndecisionModal from "./IndecisionModal";
 
 class Indecision extends Component {
   constructor(props) {
@@ -11,11 +12,14 @@ class Indecision extends Component {
       title: "In Decision App",
       subTitle: "put your life in danger!",
       options: ["alpha", "beta", "gama"],
+      isModal: false,
+      selectedOption: "",
     };
     this.removeAll = this.removeAll.bind(this);
     this.handelPicked = this.handelPicked.bind(this);
     this.addOptionHandler = this.addOptionHandler.bind(this);
-    this.deleteOneOption = this.deleteOneOption.bind(this)
+    this.deleteOneOption = this.deleteOneOption.bind(this);
+    this.setModal = this.setModal.bind(this);
   }
   removeAll() {
     this.setState(() => {
@@ -23,13 +27,30 @@ class Indecision extends Component {
     });
   }
   handelPicked() {
-    alert(
-      this.state.options.length
-        ? this.state.options[
-            Math.floor(Math.random() * this.state.options.length)
-          ]
-        : "Options is empty please add!"
-    );
+    if (this.state.options.length) {
+      this.setState(() => {
+        return { selectedOption: "Options is empty please add!" };
+      });
+    } else {
+      this.setState(() => {
+        return {
+          selectedOption:
+            this.state.options[
+              Math.floor(Math.random() * this.state.options.length)
+            ],
+        };
+      });
+    }
+    // alert(
+    //   this.state.options.length
+    //     ?
+    //     : "Options is empty please add!"
+    // );
+  }
+  setModal(visibilityInput) {
+    this.setState((prevState) => {
+      return { ...prevState, isModal: visibilityInput };
+    });
   }
 
   addOptionHandler(option) {
@@ -43,25 +64,30 @@ class Indecision extends Component {
     });
   }
 
-  deleteOneOption(inputOption){
-    this.setState((prevState)=>{
+  deleteOneOption(inputOption) {
+    this.setState((prevState) => {
       return {
         // ...prevState,
-        options:prevState.options.filter((option)=> option !== inputOption)
-      }
-    })
+        options: prevState.options.filter((option) => option !== inputOption),
+      };
+    });
   }
   render() {
     return (
       <div>
         <Header title={this.state.title} subTitle={this.state.subTitle} />
         <Action handelPicked={this.handelPicked} />
-        <Options 
-        options={this.state.options} 
-        removeAll={this.removeAll}
-        deleteOneOption={this.deleteOneOption}
+        <Options
+          options={this.state.options}
+          removeAll={this.removeAll}
+          deleteOneOption={this.deleteOneOption}
         />
         <AddOption addOptionHandler={this.addOptionHandler} />
+        <IndecisionModal
+          setModal={this.setModal}
+          visibility={this.state.isModal}
+          selectedOption={this.state.selectedOption}
+        />
       </div>
     );
   }
